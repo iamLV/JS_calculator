@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 300px;
+            height: 400px;
+        }
+        .container div {
+            display: flex;
+        }
+        .input {
+            width: 100%;
+        }
+        .input>input {
+            width: 99%;
+            margin: 0.1%;
+            height: 50px;
+        }
+        button {
+            height: 60px;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input" ><input type="text" id="paraX" value=""></div>
+        <div class="input"  ><input type="text" id="paraY" value=""></div>
+
+        <button onclick="add()">+</button>
+        <button onclick="minus('3/2','1/2')">-</button>
+        <button onclick="divide('1/5','1/2')">/</button>
+        <button onclick="multiply('1/5','1/2')">*</button>
+        <button onclick="square('1/5')">square</button>
+        <button onclick="three('1/5')">Power of three</button>
+        <h1>result:</h1>
+        <div class="input" id="res" ><input type="text"  ></div>
+
+    </div>
+
+    <script>
+
+function add(){
+            var paraX = document.getElementById("paraX").value;
+            
+            var paraY = document.getElementById("paraY").value;
+             var res =  document.getElementById("res");
+
+            if(paraX.indexOf('/')==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+            if(paraY.indexOf("/")==-1){
+            paraY=paraY+"/1";
+            }else{
+            paraY=paraY;
+            }
+            
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+            var numeratorY=paraY.split("/")[0];//y的分子
+            var denominatorY=paraY.split("/")[1];//y的分母
+            
+            var  denominator = lcm(denominatorX,denominatorY);
+            // 计算最大公约数
+              
+            var  numerator = numeratorX*(denominator/denominatorX)+  numeratorY*(denominator/denominatorY)
+           
+            if(denominator == numerator){
+               res.innerText = '1';
+            }
+            else{
+                res.innerText = numerator+"/"+denominator;
+            }
+}
+
+function minus(){
+             var paraX = document.getElementById("paraX").value;
+            
+            var paraY = document.getElementById("paraY").value;
+             var res =  document.getElementById("res");
+
+            if(paraX.indexOf("/")==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+            if(paraY.indexOf("/")==-1){
+            paraY=paraY+"/1";
+            }else{
+            paraY=paraY;
+            }
+            
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+            var numeratorY=paraY.split("/")[0];//y的分子
+            var denominatorY=paraY.split("/")[1];//y的分母
+            
+            var  denominator = lcm(denominatorX,denominatorY);
+            // 计算最大公约数
+           
+            var  numerator = numeratorX*(denominator/denominatorX) -  numeratorY*(denominator/denominatorY)
+           
+            if(numerator === 0){
+                res.innerText = '0';
+            }else
+            if(denominator == numerator){
+               res.innerText = '1';
+            }
+            else{
+                res.innerText = numerator+"/"+denominator;
+            }
+}
+
+
+function multiply(){
+    var paraX = document.getElementById("paraX").value;
+            
+            var paraY = document.getElementById("paraY").value;
+             var res =  document.getElementById("res");
+
+            if(paraX.indexOf("/")==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+            if(paraY.indexOf("/")==-1){
+            paraY=paraY+"/1";
+            }else{
+            paraY=paraY;
+            }
+            
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+            var numeratorY=paraY.split("/")[0];//y的分子
+            var denominatorY=paraY.split("/")[1];//y的分母
+            
+            var numerator=numeratorX*numeratorY;//运算之后的分子
+            var denominator=denominatorX*denominatorY;//运算之后的分母
+            // 计算最大公约数
+            var divisor=gcd(numerator,denominator);
+            
+            numerator=numerator/divisor;
+            denominator=denominator/divisor
+            if(denominator==1){
+            res.innerText =  numerator;
+            }
+            else{
+                res.innerText = numerator+"/"+denominator;
+            }
+}
+
+
+//除法的话，只需要把后面这个乘数的分子分母进行交换即可
+function divide(paraX,paraY){
+    var paraX = document.getElementById("paraX").value;
+            
+            var paraY = document.getElementById("paraY").value;
+             var res =  document.getElementById("res");
+            if(paraX.indexOf("/")==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+            if(paraY.indexOf("/")==-1){
+            paraY=paraY+"/1";
+            }else{
+            paraY=paraY;
+            }
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+            var numeratorY=paraY.split("/")[1];//y的分子
+            var denominatorY=paraY.split("/")[0];//y的分母
+            
+            var numerator=numeratorX*numeratorY;//运算之后的分子
+            var denominator=denominatorX*denominatorY;//运算之后的分母
+            // 计算最大公约数
+            var divisor=gcd(numerator,denominator);
+            
+            numerator=numerator/divisor;
+            denominator=denominator/divisor
+            if(denominator==1){
+            res.innerText =  numerator;
+            }
+            else{
+                res.innerText = numerator+"/"+denominator;
+            }
+}
+
+function three(paraX){
+    var paraX = document.getElementById("paraX").value;
+            
+             var res =  document.getElementById("res");
+
+            if(paraX.indexOf("/")==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+           
+            
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+             
+            var numerator=1//运算之后的分子
+            var denominator=1//运算之后的分母
+            for(let i =0;i<3;i++){
+                numerator *=numeratorX;
+                denominator *=denominatorX;
+            }
+            res.innerText = numerator+'/'+denominator;
+        
+}
+
+function square(paraX){
+    var paraX = document.getElementById("paraX").value;
+            
+             var res =  document.getElementById("res");
+
+            if(paraX.indexOf("/")==-1){
+            paraX=paraX+"/1";
+            }else{
+            paraX=paraX;
+            }
+         
+            
+            var numeratorX=paraX.split("/")[0];//x的分子
+            var denominatorX=paraX.split("/")[1];//x的分母
+   
+            
+            var numerator=numeratorX*numeratorX;//运算之后的分子
+            var denominator=denominatorX*denominatorX;//运算之后的分母
+            
+            res.innerText = numerator+'/'+denominator;
+        
+}
+
+//计算最大公约数
+function gcd(a,b){ 
+        if (b == 0){ 
+        return a;  
+        }
+        var r = parseInt(a % b) ;   
+        return gcd(b, r); 
+
+}
+function  lcm(a,b){
+           // 最小公倍数
+       if (a < b){
+           var  temp = a;
+          a = b;
+          b = temp;
+      }
+       for ( var  i = 1 ;i <= b;i ++ ){
+           if ((a * i) % b  ==   0 ){
+               return  a * i;
+          }
+      }
+  }
+
+
+
+    </script>
+</body>
+</html>
